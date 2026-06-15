@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+reports/
+config/config.py
+.claude/
+.vscode/
+generated_testcases/
+generated_tests/
+docs/github_openapi.json

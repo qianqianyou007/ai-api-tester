@@ -1,0 +1,246 @@
+以下是 API 的所有接口：
+
+## 1. GET /events
+功能: List public events
+参数:
+可能的响应状态码: 200, 304, 403, 503
+
+---
+
+## 2. GET /feeds
+功能: Get feeds
+可能的响应状态码: 200
+
+---
+
+## 3. GET /issues
+功能: List issues assigned to the authenticated user
+参数:
+  - filter (query) (可选): Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation.
+  - state (query) (可选): Indicates the state of the issues to return.
+  - sort (query) (可选): What to sort results by.
+  - collab (query) (可选): 
+  - orgs (query) (可选): 
+  - owned (query) (可选): 
+  - pulls (query) (可选): 
+可能的响应状态码: 200, 422, 304, 404
+
+---
+
+## 4. GET /networks/{owner}/{repo}/events
+功能: List public events for a network of repositories
+参数:
+可能的响应状态码: 200, 404, 403, 304, 301
+
+---
+
+## 5. GET /notifications
+功能: List notifications for the authenticated user
+参数:
+  - per_page (query) (可选): The number of results per page (max 50). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+可能的响应状态码: 200, 304, 403, 401, 422
+
+---
+
+## 6. PUT /notifications
+功能: Mark notifications as read
+有请求体
+可能的响应状态码: 202, 205, 304, 403, 401
+
+---
+
+## 7. GET /notifications/threads/{thread_id}
+功能: Get a thread
+参数:
+可能的响应状态码: 200, 304, 403, 401
+
+---
+
+## 8. DELETE /notifications/threads/{thread_id}
+功能: Mark a thread as done
+参数:
+可能的响应状态码: 204
+
+---
+
+## 9. PATCH /notifications/threads/{thread_id}
+功能: Mark a thread as read
+参数:
+可能的响应状态码: 205, 304, 403
+
+---
+
+## 10. GET /notifications/threads/{thread_id}/subscription
+功能: Get a thread subscription for the authenticated user
+参数:
+可能的响应状态码: 200, 304, 403, 401
+
+---
+
+## 11. PUT /notifications/threads/{thread_id}/subscription
+功能: Set a thread subscription
+参数:
+有请求体
+可能的响应状态码: 200, 304, 403, 401
+
+---
+
+## 12. DELETE /notifications/threads/{thread_id}/subscription
+功能: Delete a thread subscription
+参数:
+可能的响应状态码: 204, 304, 403, 401
+
+---
+
+## 13. GET /orgs/{org}/events
+功能: List public organization events
+参数:
+可能的响应状态码: 200
+
+---
+
+## 14. GET /orgs/{org}/issues
+功能: List organization issues assigned to the authenticated user
+参数:
+  - filter (query) (可选): Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation.
+  - state (query) (可选): Indicates the state of the issues to return.
+  - type (query) (可选): Can be the name of an issue type.
+  - sort (query) (可选): What to sort results by.
+可能的响应状态码: 200, 404
+
+---
+
+## 15. GET /orgs/{org}/repos
+功能: List organization repositories
+参数:
+  - type (query) (可选): Specifies the types of repositories you want returned.
+  - sort (query) (可选): The property to sort the results by.
+  - direction (query) (可选): The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
+可能的响应状态码: 200
+
+---
+
+## 16. POST /orgs/{org}/repos
+功能: Create an organization repository
+参数:
+有请求体
+可能的响应状态码: 201, 403, 422
+
+---
+
+## 17. GET /orgs/{org}/rulesets
+功能: Get all organization repository rulesets
+参数:
+可能的响应状态码: 200, 404, 500
+
+---
+
+## 18. POST /orgs/{org}/rulesets
+功能: Create an organization repository ruleset
+参数:
+有请求体
+可能的响应状态码: 201, 404, 422, 500
+
+---
+
+## 19. GET /orgs/{org}/rulesets/rule-suites
+功能: List organization rule suites
+参数:
+可能的响应状态码: 200, 404, 500
+
+---
+
+## 20. GET /orgs/{org}/rulesets/rule-suites/{rule_suite_id}
+功能: Get an organization rule suite
+参数:
+可能的响应状态码: 200, 404, 500
+
+---
+
+## 21. GET /orgs/{org}/rulesets/{ruleset_id}
+功能: Get an organization repository ruleset
+参数:
+  - ruleset_id (path) (必填): The ID of the ruleset.
+可能的响应状态码: 200, 404, 500
+
+---
+
+## 22. PUT /orgs/{org}/rulesets/{ruleset_id}
+功能: Update an organization repository ruleset
+参数:
+  - ruleset_id (path) (必填): The ID of the ruleset.
+有请求体
+可能的响应状态码: 200, 404, 422, 500
+
+---
+
+## 23. DELETE /orgs/{org}/rulesets/{ruleset_id}
+功能: Delete an organization repository ruleset
+参数:
+  - ruleset_id (path) (必填): The ID of the ruleset.
+可能的响应状态码: 204, 404, 500
+
+---
+
+## 24. GET /repos/{owner}/{repo}
+功能: Get a repository
+参数:
+可能的响应状态码: 200, 403, 404, 301
+
+---
+
+## 25. DELETE /repos/{owner}/{repo}
+功能: Delete a repository
+参数:
+可能的响应状态码: 204, 403, 307, 404, 409
+
+---
+
+## 26. PATCH /repos/{owner}/{repo}
+功能: Update a repository
+参数:
+有请求体
+可能的响应状态码: 200, 307, 403, 422, 404
+
+---
+
+## 27. GET /repos/{owner}/{repo}/activity
+功能: List repository activities
+参数:
+  - ref (query) (可选): The Git reference for the activities you want to list.
+
+The `ref` for a branch can be formatted either as `refs/heads/BRANCH_NAME` or `BRANCH_NAME`, where `BRANCH_NAME` is the name of your branch.
+  - actor (query) (可选): The GitHub username to use to filter by the actor who performed the activity.
+  - time_period (query) (可选): The time period to filter by.
+
+For example, `day` will filter for activity that occurred in the past 24 hours, and `week` will filter for activity that occurred in the past 7 days (168 hours).
+  - activity_type (query) (可选): The activity type to filter by.
+
+For example, you can choose to filter by "force_push", to see all force pushes to the repository.
+可能的响应状态码: 200, 422
+
+---
+
+## 28. GET /repos/{owner}/{repo}/assignees
+功能: List assignees
+参数:
+可能的响应状态码: 200, 404
+
+---
+
+## 29. GET /repos/{owner}/{repo}/assignees/{assignee}
+功能: Check if a user can be assigned
+参数:
+  - assignee (path) (必填): 
+可能的响应状态码: 204, 404
+
+---
+
+## 30. POST /repos/{owner}/{repo}/attestations
+功能: Create an attestation
+参数:
+有请求体
+可能的响应状态码: 201, 403, 422
+
+---
+

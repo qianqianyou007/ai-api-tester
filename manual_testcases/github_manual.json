@@ -1,0 +1,140 @@
+[
+  {
+    "id": "MANUAL-003",
+    "endpoint": "/repos/{owner}/{repo}",
+    "method": "GET",
+    "scenario_type": "positive",
+    "title": "获取公开仓库信息 - 正常场景",
+    "request": {
+      "params": { "owner": "octocat", "repo": "Hello-World" }
+    },
+    "expected_status": 200,
+    "expected_check": "响应 name=Hello-World，full_name=octocat/Hello-World，存在 owner.html_url 字段"
+  },
+  {
+    "id": "MANUAL-004",
+    "endpoint": "/user/repos",
+    "method": "GET",
+    "scenario_type": "positive",
+    "title": "登录用户查询仓库列表（分页排序）- 正常场景",
+    "request": {
+      "params": { "per_page": 5, "sort": "updated" },
+      "headers": { "Authorization": "token YOUR_VALID_TOKEN" }
+    },
+    "expected_status": 200,
+    "expected_check": "响应体为数组类型，数组长度 ≤ 5，每条数据包含 name、full_name、private 字段"
+  },
+  {
+    "id": "MANUAL-005",
+    "endpoint": "/repos/{owner}/{repo}/issues",
+    "method": "POST",
+    "scenario_type": "positive",
+    "title": "新建 Issue - 正常场景",
+    "request": {
+      "params": { "owner": "octocat", "repo": "Hello-World" },
+      "headers": { "Authorization": "token YOUR_VALID_TOKEN" },
+      "body": { "title": "Test Issue - API Test", "body": "This is a test issue created via API testing." }
+    },
+    "expected_status": 201,
+    "expected_check": "返回 title 与入参一致，state 为 open，返回 issue 编号 number 字段"
+  },
+  {
+    "id": "MANUAL-006",
+    "endpoint": "/repos/{owner}/{repo}",
+    "method": "GET",
+    "scenario_type": "negative",
+    "title": "查询不存在仓库 - 参数异常",
+    "request": {
+      "params": { "owner": "github", "repo": "this-repo-does-not-exist-12345" }
+    },
+    "expected_status": 404,
+    "expected_check": "响应 message 字段值为 'Not Found'，表示资源不存在"
+  },
+  {
+    "id": "MANUAL-007",
+    "endpoint": "/repos/{owner}/{repo}/issues",
+    "method": "POST",
+    "scenario_type": "negative",
+    "title": "创建 Issue 缺失必填 title 字段 - 参数校验异常",
+    "request": {
+      "params": { "owner": "octocat", "repo": "Hello-World" },
+      "headers": { "Authorization": "token YOUR_VALID_TOKEN" },
+      "body": { "body": "Missing title field" }
+    },
+    "expected_status": 422,
+    "expected_check": "返回校验失败信息，errors 数组提示 title 字段缺失"
+  },
+  {
+    "id": "MANUAL-008",
+    "endpoint": "/search/repositories",
+    "method": "GET",
+    "scenario_type": "negative",
+    "title": "per_page 传入非数字字符串 - 参数类型异常",
+    "request": {
+      "params": { "q": "test", "per_page": "abc" }
+    },
+    "expected_status": 422,
+    "expected_check": "提示 per_page 需传入合法整数，参数校验不通过"
+  },
+  {
+    "id": "MANUAL-009",
+    "endpoint": "/repos/{owner}/{repo}/issues",
+    "method": "GET",
+    "scenario_type": "boundary",
+    "title": "分页参数边界最大值 per_page=100",
+    "request": {
+      "params": { "owner": "octocat", "repo": "Hello-World", "per_page": 100, "page": 1 }
+    },
+    "expected_status": 200,
+    "expected_check": "返回 issue 数量不超过 100，多页时响应头 Link 存在分页标识"
+  },
+  {
+    "id": "MANUAL-010",
+    "endpoint": "/repos/{owner}/{repo}/issues",
+    "method": "GET",
+    "scenario_type": "boundary",
+    "title": "分页参数边界最小值 per_page=1",
+    "request": {
+      "params": { "owner": "octocat", "repo": "Hello-World", "per_page": 1, "page": 1 }
+    },
+    "expected_status": 200,
+    "expected_check": "返回的数组长度 ≤ 1；如果总 Issue 数大于 1，响应头 Link 应包含 rel='next' 分页链接"
+  },
+  {
+    "id": "MANUAL-011",
+    "endpoint": "/user",
+    "method": "GET",
+    "scenario_type": "auth",
+    "title": "无 Token 访问需鉴权接口",
+    "request": {
+      "headers": {}
+    },
+    "expected_status": 401,
+    "expected_check": "返回提示需要身份认证，鉴权拦截请求"
+  },
+  {
+    "id": "MANUAL-012",
+    "endpoint": "/repos/{owner}/{repo}",
+    "method": "DELETE",
+    "scenario_type": "auth",
+    "title": "Token 无仓库删除权限，执行删除操作",
+    "request": {
+      "params": { "owner": "octocat", "repo": "Hello-World" },
+      "headers": { "Authorization": "token TOKEN_WITHOUT_DELETE_REPO_PERMISSION" }
+    },
+    "expected_status": 403,
+    "expected_check": "返回权限不足提示，禁止执行删除仓库操作"
+  },
+  {
+    "id": "MANUAL-013",
+    "endpoint": "/search/repositories",
+    "method": "GET",
+    "scenario_type": "negative",
+    "title": "搜索关键词 q 传入空字符串 - 非法参数",
+    "request": {
+      "params": { "q": "" }
+    },
+    "expected_status": 422,
+    "expected_check": "参数校验失败，提示搜索关键词不能为空"
+  }
+]
