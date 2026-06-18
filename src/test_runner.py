@@ -14,7 +14,7 @@ def run_all_tests():
     print("[START] 开始执行 AI 生成的测试用例")
     print("=" * 50)
 
-    # 运行 pytest
+    # 运行 pytest（含覆盖率统计）
     result = subprocess.run(
         [
             sys.executable, "-m", "pytest",
@@ -23,6 +23,9 @@ def run_all_tests():
             f"--html={report_dir}/test_report.html",
             "--self-contained-html",
             "--tb=short",
+            f"--cov={test_dir}",
+            f"--cov-report=html:{report_dir}/coverage",
+            "--cov-report=term",
         ],
         capture_output=False,
     )
@@ -34,6 +37,7 @@ def run_all_tests():
         print(f"[WARN] 有测试失败（exit code: {result.returncode}），查看报告了解详情")
 
     print(f"[REPORT] HTML 报告: {report_dir}/test_report.html")
+    print(f"[REPORT] 覆盖率报告: {report_dir}/coverage/index.html")
     return result.returncode
 
 

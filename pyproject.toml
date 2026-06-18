@@ -1,0 +1,16 @@
+[tool.pytest.ini_options]
+testpaths = ["generated_tests"]
+python_files = ["test_*.py"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--showlocals",
+    "--tb=short",
+]
+markers = [
+    "ai_generated: AI 自动生成的测试用例",
+    "positive: 正常场景测试",
+    "negative: 异常场景测试",
+    "boundary: 边界场景测试",
+    "auth: 鉴权场景测试",
+]
