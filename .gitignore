@@ -6,5 +6,4 @@ config/config.py
 .claude/
 .vscode/
 generated_testcases/
-generated_tests/
 docs/github_openapi.json
