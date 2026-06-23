@@ -37,7 +37,7 @@ jobs:
               f.write(f'GITHUB_TOKEN = {repr(token)}\n')
               f.write(f'TEST_TIMEOUT = 10\n')
           "
-          pytest generated_tests/ -v --tb=short --html=reports/test_report.html --cov=generated_tests --cov-report=term -k "not (releases and positive)" -m "not (positive and POST) and not (positive and DELETE)"
+          pytest generated_tests/ -v --tb=short --html=reports/test_report.html --cov=generated_tests --cov-report=term -k "not releases" -m "not (positive and POST) and not (positive and DELETE)"
 
       - name: 上传 HTML 报告
         if: always()
